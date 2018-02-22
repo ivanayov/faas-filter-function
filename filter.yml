@@ -1,0 +1,11 @@
+provider:
+  name: faas
+  gateway: http://ip172-18-0-14-ba78nmn8h51g00fntmb0-8080.direct.labs.play-with-docker.com
+
+functions:
+  test:
+    lang: python
+    handler: ./test
+    image: docwareiy/test
+    environment:
+      write_debug: true

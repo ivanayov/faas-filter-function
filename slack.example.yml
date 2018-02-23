@@ -1,0 +1,4 @@
+environment:
+  slack_hook_positive: <hooks.slack.com>
+  slack_hook_negative: <hooks.slack.com>
+  gateway_hostname: gateway

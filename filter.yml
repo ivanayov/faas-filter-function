@@ -1,11 +1,13 @@
 provider:
   name: faas
-  gateway: http://ip172-18-0-14-ba78nmn8h51g00fntmb0-8080.direct.labs.play-with-docker.com
+  gateway: http://localhost:8080
 
 functions:
-  test:
+  filter:
     lang: python
-    handler: ./test
-    image: docwareiy/test
+    handler: ./filter
+    image: docwareiy/filter
     environment:
       write_debug: true
+    environment_file:
+    - slack.yml

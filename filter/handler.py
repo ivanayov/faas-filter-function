@@ -1,11 +1,20 @@
-import requests
-import json
+import requests, json, os
 
 def handle(st):
+
+    slack_hook_positive = os.getenv("slack_hook_positive")
+    slack_hook_negative = os.getenv("slack_hook_negative")
+    gateway_hostname = os.getenv("gateway_hostname", "gateway")
+
     req=json.loads(st)
-    if not "RT" in message['text']:
+    if not "RT" in req['text']:
         message={"text": req["text"] + " " + req["username"] + " " + req["link"]}
-    else:
-        message={"text": "This is a filtered message"}
-    r=requests.post("https://hooks.slack.com/services", json=message)
-    print(r)
+        res = requests.post('http://' + gateway_hostname + ':8080/function/sentimentanalysis', data=req["text"])
+        
+
+        if res.json()['polarity']  >  0.2:
+            r=requests.post(slack_hook_positive, json=message)
+        else:
+            r=requests.post(slack_hook_negative, json=message)
+
+        print(r)
